@@ -4,6 +4,7 @@ import './App.css';
 import CollectionListItem from './collectionListItem';
 import Card from './Card';
 import AddTopicButton from './AddTopicButton';
+import CreateUpdateCard from './CreateUpdateCard';
 
 class App extends React.Component {
   constructor(props){
@@ -13,7 +14,9 @@ class App extends React.Component {
       activeCollectionIndex: null,
       activeCardIndex:null,
       wordIsShowing:true,
-      isAddingTopic: false
+      isAddingTopic: false,
+      isEditingCard:false,
+      isCreatingCard:false
     };
   }
   componentDidMount(){
@@ -62,7 +65,6 @@ class App extends React.Component {
         const id = this.state.collections.length + 1;
         axios.post('http://localhost:3001/collections', {id: id, title:title, cards: []})
              .then(res => {
-               console.log("Good post.");
                this.updateCollections();
               })
               .catch(function(error){
@@ -76,6 +78,51 @@ class App extends React.Component {
     this.setState({
       wordIsShowing: !this.state.wordIsShowing
     });
+  }
+
+  submitEditedCard(collectionIndex, id){
+    const word = document.getElementById("wordInput").value;
+    const definition = document.getElementById("definitionInput").value;
+    let collection = this.state.collections[collectionIndex];
+    collection.cards.map( (card) => {
+      if(card.id === id){
+        card.word = word;
+        card.definition = definition;
+      }
+    });
+    axios.put("http://localhost:3001/collections/" + (collectionIndex + 1),collection)
+         .then(res => {
+           this.setState({
+             isEditingCard: false
+           });
+          this.updateCollections();
+         })
+         .catch(function(error){
+          console.log(error.response);
+        });
+  }
+
+  submitCreatedCard(collectionIndex){
+    const word = document.getElementById("wordInput").value;
+    const definition = document.getElementById("definitionInput").value;
+    let collection = this.state.collections[collectionIndex];
+    let card = {
+      id: collection.cards.length,
+      word: word,
+      definition: definition
+    };
+    collection.cards.push(card);
+    console.log(collectionIndex);
+    axios.put("http://localhost:3001/collections/" + (collectionIndex + 1), collection)
+         .then(res => {
+           this.setState({
+             isCreatingCard: false
+           });
+           this.updateCollections();
+         })
+         .catch(function(error){
+          console.log(error.response);
+        });
   }
 
   renderTableRows(collections){
@@ -94,8 +141,18 @@ class App extends React.Component {
   }
 
   renderCard(){
+    if(this.state.isCreatingCard)
+      return <CreateUpdateCard onClick={() => this.submitCreatedCard(this.state.activeCollectionIndex)}
+                                cancel = {() => this.cancelCreatingCard()}
+                              />;
     let cards = this.state.activeCollectionIndex != null && this.state.activeCollectionIndex >= 0 ? this.state.collections[this.state.activeCollectionIndex].cards : null;
     let card = cards ? cards[this.state.activeCardIndex] : null;
+    if(this.state.isEditingCard)
+      return <CreateUpdateCard word={card.word} 
+                               definition={card.definition} 
+                               onClick={() => this.submitEditedCard(this.state.activeCollectionIndex, card.id)}
+                               cancel = {() => this.cancelEditingCard()}
+                               />;
     return card ? <Card word = {card.word} 
                         definition = {card.definition} 
                         wordIsShowing = {this.state.wordIsShowing}
@@ -109,6 +166,31 @@ class App extends React.Component {
     <AddTopicButton  isAddingTopic = {this.state.isAddingTopic}
                     onClick = {() => this.handleAddTopicClick()}/>
     </td>);
+  }
+
+  setStateForEditingCard(){
+    this.setState({
+      isEditingCard: true
+    });
+  }
+
+  cancelEditingCard(){
+    this.setState({
+      isEditingCard: false
+    });
+  }
+
+  setStateForCreatingCard(){
+    this.setState({
+      isCreatingCard: true
+    });
+  }
+
+  cancelCreatingCard(){
+    console.log(1);
+    this.setState({
+      isCreatingCard: false
+    });
   }
 
   render(){
@@ -131,9 +213,11 @@ class App extends React.Component {
         </div>
         <div className="cardDiv">
           {this.renderCard()}
+          <button onClick = {() => this.setStateForEditingCard()}>Edit</button> | 
           <button onClick= {() => this.setState({activeCardIndex: getPrevCardIndex(this.state.activeCardIndex), wordIsShowing: true})}>Prev</button>
           <span>   {this.state.activeCardIndex + 1} / {this.state.collections ? getNumberOfCardsInCollection(this.state.collections[this.state.activeCollectionIndex]) : null}  </span>
-          <button onClick={() => this.setState({activeCardIndex: getNextCardIndex(this.state.activeCardIndex, this.state.collections[this.state.activeCollectionIndex].cards), wordIsShowing: true})}>Next</button>
+          <button onClick={() => this.setState({activeCardIndex: getNextCardIndex(this.state.activeCardIndex, this.state.collections[this.state.activeCollectionIndex].cards), wordIsShowing: true})}>Next</button> | 
+          <button onClick = {() => this.setStateForCreatingCard()}>Create</button>
         </div>
       </div>
     );

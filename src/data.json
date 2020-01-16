@@ -6,8 +6,8 @@
       "cards": [
         {
           "id": 1,
-          "word": "state",
-          "definition": "JS object that holds values for a component"
+          "word": "State",
+          "definition": "JavaScript object that holds values."
         },
         {
           "id": 2,
@@ -45,7 +45,13 @@
     {
       "id": 3,
       "title": "HTML",
-      "cards": []
+      "cards": [
+        {
+          "id": 0,
+          "word": "Element",
+          "definition": "An individual component of an HTML document or web page."
+        }
+      ]
     }
   ]
 }

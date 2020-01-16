@@ -3,7 +3,7 @@ h3{
 }
 
 .cardDiv{
-    height: 200px;
+    height: 100px;
     text-align: center;
 }
 
@@ -11,5 +11,9 @@ h3{
     background-color: #e6b3ff;
     height: 100%;
     width: 100%;
-    
+    align-content: center;
+}
+div h3{
+    position: relative;
+    top:50%;
 }
