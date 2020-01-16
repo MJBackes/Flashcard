@@ -1,5 +1,23 @@
+
+.topicsDiv{
+  width:25%;
+  display: inline-block;
+  top:0;
+}
+.cardDiv{
+  width: 73%;
+  margin-right: 2%;
+  display: inline-block;
+}
+body{
+  background-color: #282c34;
+}
+span, th{
+  color:aliceblue;
+}
+
 .App {
-  text-align: center;
+  width:100%;
 }
 
 .App-logo {

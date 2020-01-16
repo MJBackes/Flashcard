@@ -3,8 +3,7 @@
     {
       "id": 1,
       "title": "React",
-      "cards":
-      [
+      "cards": [
         {
           "id": 1,
           "word": "state",
@@ -25,8 +24,7 @@
     {
       "id": 2,
       "title": "C#",
-      "cards":
-      [
+      "cards": [
         {
           "id": 1,
           "word": "variable",
@@ -43,6 +41,11 @@
           "definition": "Instance of a class"
         }
       ]
+    },
+    {
+      "id": 3,
+      "title": "HTML",
+      "cards": []
     }
   ]
 }

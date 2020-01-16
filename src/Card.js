@@ -19,9 +19,6 @@ class Card extends React.Component{
             cardNumber: props.cardNumber
         })
     }
-    componentDidUpdate(props){
-        console.log(this.state.word + " " + this.state.definition);
-    }
 
     render(){
         const content = this.state.wordIsShowing ? this.state.word : this.state.definition;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import CollectionListItem from './collectionListItem';
 import Card from './Card';
+import AddTopicButton from './AddTopicButton';
 
 class App extends React.Component {
   constructor(props){
@@ -11,13 +12,23 @@ class App extends React.Component {
       collections: null,
       activeCollectionIndex: null,
       activeCardIndex:null,
-      wordIsShowing:true
+      wordIsShowing:true,
+      isAddingTopic: false
     };
   }
   componentDidMount(){
+    this.updateCollections();
+  }
+
+  updateCollections(){
     axios.get('http://localhost:3001/collections')
-    .then(res => {
-      const collections = res.data;
+         .then(res => {
+           this.setStateFromAPIGet(res);
+         })
+  }
+
+  setStateFromAPIGet(res){
+    const collections = res.data;
       let collectionIndex = null;
       let cardIndex = null;
       if(collections && collections.length > 0){
@@ -28,17 +39,37 @@ class App extends React.Component {
       this.setState({
         collections: collections,
         activeCollectionIndex: collectionIndex,
-        activeCardIndex: cardIndex
+        activeCardIndex: cardIndex,
+        isAddingTopic: false
       });
-    });
   }
-
   handleTopicClick(index){
     this.setState({
       activeCollectionIndex: index,
       activeCardIndex: 0,
       wordIsShowing: true
     })
+  }
+
+  handleAddTopicClick(){
+    if(!this.state.isAddingTopic){
+      this.setState({
+        isAddingTopic: true
+      });
+    }
+      else{
+        const title = document.getElementById("topicTitleInput").value;
+        const id = this.state.collections.length + 1;
+        axios.post('http://localhost:3001/collections', {id: id, title:title, cards: []})
+             .then(res => {
+               console.log("Good post.");
+               this.updateCollections();
+              })
+              .catch(function(error){
+                console.log(id);
+                console.log(error.response);
+              });
+      }
   }
 
   flipCard(){
@@ -73,10 +104,17 @@ class App extends React.Component {
                   /> : null;
   }
 
+  renderAddTopicButton(){
+    return                   (<td>
+    <AddTopicButton  isAddingTopic = {this.state.isAddingTopic}
+                    onClick = {() => this.handleAddTopicClick()}/>
+    </td>);
+  }
+
   render(){
     return (
       <div className="App">
-        <div>
+        <div className="topicsDiv">
             <table className="topicsTable">
               <tbody>
                 <tr key="0">
@@ -86,7 +124,7 @@ class App extends React.Component {
                 </tr>
                 {this.renderTableRows(this.state.collections)}
                 <tr>
-                  <td><button >Add</button></td>
+                    {this.renderAddTopicButton()}
                 </tr>
               </tbody>
             </table>

@@ -4,11 +4,12 @@ h3{
 
 .cardDiv{
     height: 200px;
-    justify-content: center;
+    text-align: center;
 }
 
 .cardDiv div{
     background-color: #e6b3ff;
     height: 100%;
-    width: 50%;
+    width: 100%;
+    
 }

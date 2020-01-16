@@ -1,0 +1,6 @@
+form input{
+    display: inline-block;
+}
+form button{
+    display: inline;
+}

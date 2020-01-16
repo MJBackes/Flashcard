@@ -1,9 +1,22 @@
 .topicsTable button{
-    width: 120px;
+    width: 100%;
+    border: none;
+    padding: 5px;
+    margin: 0;
 }
 .topicsTable .inactiveBtn{
     background-color: #b3b3ff;
 }
 .topicsTable .activeBtn{
     background-color: #ff9999;
+}
+.topicsTable input{
+    width: 100%;
+    border: 0;
+    padding:0;
+    height: 20px;
+    margin-bottom: 3px;
+}
+table{
+    width: 100%;
 }
