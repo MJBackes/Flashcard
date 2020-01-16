@@ -40,6 +40,12 @@ class App extends React.Component {
     })
   }
 
+  flipCard(){
+    this.setState({
+      wordIsShowing: !this.state.wordIsShowing
+    });
+  }
+
   renderTableRows(collections){
     let tableRows = [];
     if(collections)
@@ -54,7 +60,11 @@ class App extends React.Component {
   renderCard(){
     let cards = this.state.activeCollectionIndex != null && this.state.activeCollectionIndex >= 0 ? this.state.collections[this.state.activeCollectionIndex].cards : null;
     let card = cards ? cards[this.state.activeCardIndex] : null;
-    return card ? <Card word = {card.word} definition = {card.definition} wordIsShowing = {this.state.wordIsShowing}/> : null;
+    return card ? <Card word = {card.word} 
+                        definition = {card.definition} 
+                        wordIsShowing = {this.state.wordIsShowing}
+                        onClick = {() => this.flipCard()}
+                  /> : null;
   }
 
   render(){
@@ -74,9 +84,9 @@ class App extends React.Component {
         </div>
         <div>
           {this.renderCard()}
-          <button onClick= {() => this.setState({activeCardIndex: getPrevCardIndex(this.state.activeCardIndex)})}>Prev</button>
+          <button onClick= {() => this.setState({activeCardIndex: getPrevCardIndex(this.state.activeCardIndex), wordIsShowing: true})}>Prev</button>
           <span>   {this.state.activeCardIndex + 1} / {this.state.collections ? getNumberOfCardsInCollection(this.state.collections[this.state.activeCollectionIndex]) : null}  </span>
-          <button onClick={() => this.setState({activeCardIndex: getNextCardIndex(this.state.activeCardIndex, this.state.collections[this.state.activeCollectionIndex].cards)})}>Next</button>
+          <button onClick={() => this.setState({activeCardIndex: getNextCardIndex(this.state.activeCardIndex, this.state.collections[this.state.activeCollectionIndex].cards), wordIsShowing: true})}>Next</button>
         </div>
       </div>
     );
