@@ -1,0 +1,14 @@
+h3{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;  
+}
+
+.cardDiv{
+    height: 200px;
+    justify-content: center;
+}
+
+.cardDiv div{
+    background-color: #e6b3ff;
+    height: 100%;
+    width: 50%;
+}

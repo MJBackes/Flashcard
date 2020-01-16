@@ -1,0 +1,9 @@
+.topicsTable button{
+    width: 120px;
+}
+.topicsTable .inactiveBtn{
+    background-color: #b3b3ff;
+}
+.topicsTable .activeBtn{
+    background-color: #ff9999;
+}

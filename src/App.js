@@ -36,7 +36,8 @@ class App extends React.Component {
   handleTopicClick(index){
     this.setState({
       activeCollectionIndex: index,
-      activeCardIndex: 0
+      activeCardIndex: 0,
+      wordIsShowing: true
     })
   }
 
@@ -52,7 +53,11 @@ class App extends React.Component {
       for(let i = 0; i < collections.length; i++){
         const collectionId = collections[i].id;
         const collectionTitle = collections[i].title;
-        tableRows.push(<tr key={i + 1}><td><CollectionListItem collId={collectionId} title={collectionTitle} onClick = {() => this.handleTopicClick(i)}/></td></tr>);
+        tableRows.push(<tr key={i + 1}><td><CollectionListItem isActive = {i === this.state.activeCollectionIndex} 
+                                                               collId={collectionId} 
+                                                               title={collectionTitle} 
+                                                               onClick = {() => this.handleTopicClick(i)}
+                                                               /></td></tr>);
       }
     return tableRows;
   }
@@ -71,7 +76,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div>
-            <table>
+            <table className="topicsTable">
               <tbody>
                 <tr key="0">
                   <th>
@@ -82,7 +87,7 @@ class App extends React.Component {
               </tbody>
             </table>
         </div>
-        <div>
+        <div className="cardDiv">
           {this.renderCard()}
           <button onClick= {() => this.setState({activeCardIndex: getPrevCardIndex(this.state.activeCardIndex), wordIsShowing: true})}>Prev</button>
           <span>   {this.state.activeCardIndex + 1} / {this.state.collections ? getNumberOfCardsInCollection(this.state.collections[this.state.activeCollectionIndex]) : null}  </span>
