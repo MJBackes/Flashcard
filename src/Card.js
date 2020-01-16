@@ -1,17 +1,7 @@
 import React from 'react';
 
-class Card extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            word: props.word,
-            definition: props.definition,
-            wordIsShowing: props.wordIsShowing
-        }
-    }
-
-    render(){
-        const content = this.state.wordIsShowing ? this.state.word : this.state.definition;
+function Card(props){
+        const content = props.wordIsShowing ? props.word : props.definition;
         return (
             <div>
                 <h3>
@@ -19,7 +9,6 @@ class Card extends React.Component{
                 </h3>
             </div>
         );
-    }
 }
 
 export default Card;
