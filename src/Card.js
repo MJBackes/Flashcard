@@ -7,14 +7,16 @@ class Card extends React.Component{
             word: props.word,
             definition: props.definition,
             wordIsShowing: props.wordIsShowing,
-            onClick: props.onClick
+            onClick: props.onClick,
+            cardNumber: props.cardNumber
         };
     }
     componentWillReceiveProps(props){
         this.setState({
             word: props.word,
             definition: props.definition,
-            wordIsShowing: props.wordIsShowing
+            wordIsShowing: props.wordIsShowing,
+            cardNumber: props.cardNumber
         })
     }
     componentDidUpdate(props){
@@ -23,8 +25,10 @@ class Card extends React.Component{
 
     render(){
         const content = this.state.wordIsShowing ? this.state.word : this.state.definition;
+        const color = getCardColor(this.state.cardNumber);
         return (
-            <div onClick = {this.state.onClick}>
+            <div onClick = {this.state.onClick}
+                 style={{backgroundColor: color}}>
                 <h3>
                     {content}
                 </h3>
@@ -34,3 +38,22 @@ class Card extends React.Component{
 }
 
 export default Card;
+
+function getCardColor(cardNumber){
+    switch(cardNumber % 6){
+        case 0:
+            return "#ffcccc";
+        case 1:
+            return "#ffffcc";
+        case 2:
+            return "#ccffcc";
+        case 3:
+            return "#ccffff";
+        case 4:
+            return "#ccccff";
+        case 5:
+            return "#ffccff";
+        default:
+            return "#ffcccc";
+    }
+}

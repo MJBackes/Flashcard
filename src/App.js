@@ -69,6 +69,7 @@ class App extends React.Component {
                         definition = {card.definition} 
                         wordIsShowing = {this.state.wordIsShowing}
                         onClick = {() => this.flipCard()}
+                        cardNumber = {this.state.activeCardIndex + 1}
                   /> : null;
   }
 
@@ -84,6 +85,9 @@ class App extends React.Component {
                   </th>
                 </tr>
                 {this.renderTableRows(this.state.collections)}
+                <tr>
+                  <td><button >Add</button></td>
+                </tr>
               </tbody>
             </table>
         </div>
