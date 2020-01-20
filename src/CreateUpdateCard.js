@@ -28,10 +28,28 @@ class CreateUpdateCard extends React.Component{
         else
             return (
                 <div style={{backgroundColor: color}}>
-                    <input id="wordInput" type="text" placeholder={this.state.word}/>
+                    <input 
+                        id="wordInput" 
+                        type="text" 
+                        value={this.state.word}
+                        onChange={(event) => {
+                            this.setState({
+                                word: event.target.value
+                            });
+                        }}
+                        />
                     <br/>
                     <br/>
-                    <input id="definitionInput" type="text" placeholder={this.state.definition}/> 
+                    <input 
+                        id="definitionInput" 
+                        type="text" 
+                        value={this.state.definition}
+                        onChange={(event) => {
+                            this.setState({
+                                word: event.target.value
+                            })
+                        }}
+                        /> 
                     <br/>
                     <button onClick={this.state.onClick}>Submit</button>
                     <button onClick={this.state.cancel}>Cancel</button>
